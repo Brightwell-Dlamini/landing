@@ -1,0 +1,56 @@
+.
+|-- README.md
+|-- eslint.config.mjs
+|-- nav.PNG
+|-- next-env.d.ts
+|-- next.config.ts
+|-- package-lock.json
+|-- package.json
+|-- postcss.config.mjs
+|-- public
+|   |-- file.svg
+|   |-- globe.svg
+|   |-- images
+|   |   |-- Festivals-SWZ-Reed-Dance-2-STA-scaled.jpg
+|   |   |-- basket.webp
+|   |   |-- bushfire.jpg
+|   |   |-- comedy.webp
+|   |   |-- corporate.jpg
+|   |   |-- cultural-showcase-1.jpg
+|   |   |-- cultural-showcase-2.jpg
+|   |   |-- cultural-showcase-3.jpg
+|   |   |-- football.jpg
+|   |   |-- hero.jpg
+|   |   |-- logo.PNG
+|   |   |-- luju1.webp
+|   |   |-- luju2.webp
+|   |   |-- music.webp
+|   |   |-- pexels-isabella-mendes-107313-332688.jpg
+|   |   |-- riders1.jpg
+|   |   |-- riders2.jpg
+|   |   |-- rugby.webp
+|   |   |-- soccer.webp
+|   |   `-- traditional-swazi-beehive-huts-accommodation-at-milwane-wildlife-santuary-eswatini-swaziland-2BBF541.jpg
+|   |-- next.svg
+|   |-- vercel.svg
+|   `-- window.svg
+|-- src
+|   `-- app
+|       |-- components
+|       |   |-- Categories.tsx
+|       |   |-- ExperienceSection.tsx
+|       |   |-- FeaturedEvents.tsx
+|       |   |-- Footer.tsx
+|       |   |-- Hero.tsx
+|       |   |-- Navbar.tsx
+|       |   |-- SocialIcons.tsx
+|       |   `-- Testimonials.tsx
+|       |-- favicon.ico
+|       |-- globals.css
+|       |-- layout.tsx
+|       `-- page.tsx
+|-- tailwind.config.js
+|-- tree.txt
+`-- tsconfig.json
+
+5 directories, 48 files
