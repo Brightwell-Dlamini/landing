@@ -14,7 +14,7 @@ import { ThemeProvider } from 'next-themes';
 
 export default function Home() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Head>
           <title>

@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   motion,
@@ -60,7 +59,8 @@ const PremiumNavbar = () => {
   const [user] = useState({
     isLoggedIn: true,
     name: 'Siyabonga D.',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    avatar:
+      'https://lh3.googleusercontent.com/a/ACg8ocKq17F3vVwMfIAeEeThCSLheoqTANWkL3FCh48YTiJOR8nMXBqh=s83-c-mo',
     notifications: 5,
     cartItems: 3,
   });
