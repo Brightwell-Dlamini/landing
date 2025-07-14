@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -15,7 +15,6 @@ import {
   MoonIcon,
   SunIcon,
   TicketIcon,
-  UserCircleIcon,
   ShoppingCartIcon,
   BellIcon,
   ChevronDownIcon,
@@ -33,7 +32,6 @@ const PremiumNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { theme, setTheme, systemTheme } = useTheme();
   const pathname = usePathname();
@@ -59,7 +57,7 @@ const PremiumNavbar = () => {
   });
 
   // Dynamic user data (replace with real auth)
-  const [user, setUser] = useState({
+  const [user] = useState({
     isLoggedIn: true,
     name: 'Siyabonga D.',
     avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
@@ -91,17 +89,19 @@ const PremiumNavbar = () => {
   ];
 
   // Debounced search
-  const handleSearch = debounce((query: string) => {
-    if (query.length > 2) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
-    }
-  }, 500);
-
+  const handleSearch = useMemo(
+    () =>
+      debounce((query: string) => {
+        if (query.length > 2) {
+          router.push(`/search?q=${encodeURIComponent(query)}`);
+        }
+      }, 500),
+    [router]
+  );
   useEffect(() => {
     if (searchQuery) handleSearch(searchQuery);
     return () => handleSearch.cancel();
-  }, [searchQuery]);
-
+  }, [searchQuery, handleSearch]);
   // Focus search when opened
   useEffect(() => {
     if (showSearch && searchRef.current) {

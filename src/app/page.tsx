@@ -1,13 +1,16 @@
 import Head from 'next/head';
-// import Navbar from './components/Navbar';
+// import { motion } from 'framer-motion';
+import PremiumNavbar from './components/Navbar';
 import Hero from './components/Hero';
+// import HowItWorks from './components/HowItWorks';
+import Categories from './components/Categories';
 import FeaturedEvents from './components/FeaturedEvents';
-import ExperienceSection from './components/ExperienceSection';
+import UpcomingHighlights from './components/UpcomingHighlights';
+import WhyChooseUs from './components/WhyChooseUs';
 import Testimonials from './components/Testimonials';
+import OrganizerCTA from './components/OrganizerCTA';
 import Footer from './components/Footer';
 import { ThemeProvider } from 'next-themes';
-import Categories from './components/Categories';
-import PremiumNavbar from './components/Navbar';
 
 export default function Home() {
   return (
@@ -19,15 +22,34 @@ export default function Home() {
           </title>
           <meta
             name="description"
-            content="Discover and book tickets for the most exciting events in Eswatini - concerts, festivals, cultural experiences and more"
+            content="Discover and book tickets for the most exciting events in Eswatini"
           />
           <link rel="icon" href="/favicon.ico" />
+          <meta
+            name="theme-color"
+            content="#ffffff"
+            media="(prefers-color-scheme: light)"
+          />
+          <meta
+            name="theme-color"
+            content="#111827"
+            media="(prefers-color-scheme: dark)"
+          />
         </Head>
+
         <PremiumNavbar />
-        <Hero />
-        <FeaturedEvents /> <Categories />
-        <ExperienceSection />
-        <Testimonials />
+
+        <main>
+          <Hero />
+          {/* <HowItWorks /> */}
+          <Categories />
+          <FeaturedEvents />
+          <UpcomingHighlights />
+          <WhyChooseUs />
+          <Testimonials />
+          <OrganizerCTA />
+        </main>
+
         <Footer />
       </div>
     </ThemeProvider>

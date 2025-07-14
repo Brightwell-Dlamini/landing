@@ -14,7 +14,7 @@ import {
   TicketIcon,
 } from '@heroicons/react/24/outline';
 import { FaFacebook, FaTwitter, FaWhatsapp, FaInstagram } from 'react-icons/fa';
-import { SiApplemusic } from 'react-icons/si';
+
 import Image from 'next/image';
 
 const Hero = () => {
@@ -51,7 +51,7 @@ const Hero = () => {
       }
     }, 6000);
     return () => clearInterval(interval);
-  }, [isHovering]);
+  }, [isHovering, images.length]);
 
   // Event type suggestions
   const eventTypes = [
@@ -69,7 +69,7 @@ const Hero = () => {
       setCurrentEventType((prev) => (prev + 1) % eventTypes.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [eventTypes.length]);
 
   return (
     <section
