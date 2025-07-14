@@ -2,7 +2,7 @@ import Head from 'next/head';
 // import { motion } from 'framer-motion';
 import PremiumNavbar from './components/Navbar';
 import Hero from './components/Hero';
-// import HowItWorks from './components/HowItWorks';
+import HowItWorks from './components/HowItWorks';
 import Categories from './components/Categories';
 import FeaturedEvents from './components/FeaturedEvents';
 import UpcomingHighlights from './components/UpcomingHighlights';
@@ -41,7 +41,7 @@ export default function Home() {
 
         <main>
           <Hero />
-          {/* <HowItWorks /> */}
+          <HowItWorks />
           <Categories />
           <FeaturedEvents />
           <UpcomingHighlights />

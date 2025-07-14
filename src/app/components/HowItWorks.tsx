@@ -1,35 +1,32 @@
 'use client';
+
 import {
   motion,
   useAnimation,
   useInView,
   AnimatePresence,
-  useScroll,
-  useTransform,
 } from 'framer-motion';
+
 import {
   MagnifyingGlassIcon,
   TicketIcon,
   QrCodeIcon,
-  FireIcon,
 } from '@heroicons/react/24/outline';
+
 import { useEffect, useRef, useState } from 'react';
+
 import { useTheme } from 'next-themes';
 
 const HowItWorks = () => {
   const controls = useAnimation();
+
   const ref = useRef(null);
+
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const { theme } = useTheme();
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.2]);
 
   useEffect(() => {
     if (isInView) {
@@ -42,80 +39,118 @@ const HowItWorks = () => {
       icon: (
         <MagnifyingGlassIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
       ),
+
       title: 'Discover Events',
+
       desc: 'Browse 100+ concerts, sports, and cultural events across Eswatini',
+
       ariaLabel: 'Step 1: Discover Events',
+
       gradient: 'from-indigo-500 to-purple-500',
+
       particles: ['🎵', '🎤', '⚽'],
     },
+
     {
       icon: (
         <TicketIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
       ),
+
       title: 'Secure Payment',
+
       desc: 'Pay via MTN Mobile Money, Visa, or cash at local booths',
+
       ariaLabel: 'Step 2: Secure Payment',
+
       gradient: 'from-purple-500 to-pink-500',
+
       particles: ['💵', '📱', '💳'],
     },
+
     {
       icon: (
         <QrCodeIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
       ),
+
       title: 'Instant Access',
+
       desc: 'Receive QR codes via WhatsApp/SMS or NFC wristbands',
+
       ariaLabel: 'Step 3: Instant Access',
+
       gradient: 'from-pink-500 to-rose-500',
+
       particles: ['📲', '✉️', '🔑'],
     },
   ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
+
     visible: {
       opacity: 1,
+
       transition: {
         staggerChildren: 0.15,
+
         when: 'beforeChildren',
       },
     },
   };
 
-//   const titleVariants = {
-//     hidden: { y: 50, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: {
-//         type: 'spring',
-//         damping: 10,
-//         stiffness: 100,
-//       } as const,
-//     },
-//   };
+  const titleVariants = {
+    hidden: { y: 50, opacity: 0 },
+
+    visible: {
+      y: 0,
+
+      opacity: 1,
+
+      transition: {
+        type: 'spring',
+
+        damping: 10,
+
+        stiffness: 100,
+      } as const,
+    },
+  };
 
   const cardVariants = {
     hidden: { y: 80, opacity: 0, rotateY: 15 },
+
     visible: (i: number) => ({
       y: 0,
+
       opacity: 1,
+
       rotateY: 0,
+
       transition: {
         delay: i * 0.15,
+
         type: 'spring',
+
         damping: 12,
+
         stiffness: 150,
       } as const,
     }),
+
     hover: {
       y: -15,
+
       scale: 1.03,
+
       transition: {
         type: 'spring',
+
         stiffness: 400,
+
         damping: 15,
       } as const,
     },
+
     tap: {
       scale: 0.97,
     },
@@ -123,100 +158,104 @@ const HowItWorks = () => {
 
   const particleVariants = {
     hidden: { opacity: 0, y: 20 },
+
     visible: (i: number) => ({
       opacity: 1,
+
       y: 0,
+
       x: Math.random() * 40 - 20,
+
       transition: {
         delay: i * 0.1,
+
         duration: 0.8,
+
         type: 'spring',
+
         stiffness: 100,
       } as const,
     }),
+
     exit: { opacity: 0, y: -20 },
   };
 
   return (
     <section
       id="how-it-works"
-      className="relative py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 overflow-hidden"
+      className="relative pt-32  bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 overflow-hidden"
       aria-labelledby="how-it-works-heading"
     >
-      {/* Animated background elements - consistent with FeaturedEvents */}
+      {/* Animated background elements */}
+
       <motion.div
-        style={{ y, opacity }}
-        className="absolute inset-0 z-0 pointer-events-none"
+        className="absolute inset-0 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5 dark:opacity-10" />
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: [0, -100],
-              x: [0, Math.random() * 200 - 100],
-              opacity: [0.5, 0],
-              transition: {
-                duration: 15 + Math.random() * 10,
-                repeat: Infinity,
-                repeatType: 'reverse',
-                delay: Math.random() * 5,
-              },
-            }}
-            className="absolute rounded-full bg-purple-500/10 dark:bg-pink-500/10"
-            style={{
-              width: `${Math.random() * 200 + 50}px`,
-              height: `${Math.random() * 200 + 50}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 rounded-full bg-purple-400/10 blur-3xl" />
+
+        <div className="absolute bottom-1/3 -right-20 w-96 h-96 rounded-full bg-pink-400/10 blur-3xl" />
+
+        <motion.div
+          className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-indigo-400/10 blur-2xl"
+          animate={{
+            x: [0, 20, 0],
+
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 15,
+
+            repeat: Infinity,
+
+            repeatType: 'reverse',
+
+            ease: 'easeInOut',
+          }}
+        />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section header - consistent with FeaturedEvents */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="text-center mb-16"
+          ref={ref}
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+          className="text-center mb-24"
         >
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            className="inline-block mb-6"
-          >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 text-sm font-medium">
-              <FireIcon className="h-4 w-4 mr-2 text-purple-500" />
-              SIMPLE PROCESS
+          <motion.div variants={titleVariants}>
+            <span className="inline-block mb-4 text-sm font-semibold tracking-wider text-purple-600 dark:text-purple-400 uppercase">
+              Effortless Ticketing
             </span>
+
+            <h2
+              id="how-it-works-heading"
+              className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
+            >
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
+                  Get Tickets in 3 Simple Steps
+                </span>
+
+                <motion.span
+                  className="absolute -bottom-2 left-0 h-1 w-full bg-gradient-to-r from-purple-500 to-rose-500 rounded-full"
+                  initial={{ scaleX: 0, originX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.5, duration: 1, ease: 'backOut' }}
+                />
+              </span>
+            </h2>
+
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              From discovery to entry - faster than ever before
+            </p>
           </motion.div>
-
-          <motion.h2
-            className="text-5xl font-bold text-gray-900 dark:text-white mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 bg-clip-text text-transparent">
-              How It Works
-            </span>{' '}
-            in 3 Easy Steps
-          </motion.h2>
-
-          <motion.p
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            From discovery to entry - faster than ever before
-          </motion.p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
           variants={containerVariants}
           initial="hidden"
           animate={controls}
@@ -230,19 +269,34 @@ const HowItWorks = () => {
               whileTap="tap"
               onHoverStart={() => setHoveredIndex(i)}
               onHoverEnd={() => setHoveredIndex(null)}
-              className="relative bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 focus:outline-none group overflow-hidden isolate"
+              className="relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 focus:outline-none group overflow-hidden isolate"
               style={{
                 transformStyle: 'preserve-3d',
               }}
               tabIndex={0}
               aria-label={step.ariaLabel}
             >
+              {/* 3D depth effect */}
+
+              <div
+                className="absolute inset-0 rounded-3xl bg-white dark:bg-gray-800 shadow-lg -z-10"
+                style={{
+                  transform: 'translateZ(-10px)',
+
+                  filter: 'blur(10px)',
+
+                  opacity: 0.5,
+                }}
+              />
+
               {/* Animated gradient border */}
+
               <motion.div
-                className="absolute inset-0 rounded-xl p-[2px] pointer-events-none"
+                className="absolute inset-0 rounded-3xl p-[2px] pointer-events-none"
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: hoveredIndex === i ? 1 : 0.3,
+
                   background: `linear-gradient(to right, ${
                     theme === 'dark' ? '#7c3aed' : '#8b5cf6'
                   }, ${theme === 'dark' ? '#ec4899' : '#f472b6'})`,
@@ -251,9 +305,10 @@ const HowItWorks = () => {
               />
 
               {/* Floating particles */}
+
               <AnimatePresence>
                 {hoveredIndex === i && (
-                  <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
+                  <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
                     {step.particles.map((emoji, idx) => (
                       <motion.span
                         key={idx}
@@ -265,6 +320,7 @@ const HowItWorks = () => {
                         exit="exit"
                         style={{
                           top: `${Math.random() * 80 + 10}%`,
+
                           left: `${Math.random() * 80 + 10}%`,
                         }}
                       >
@@ -301,6 +357,7 @@ const HowItWorks = () => {
                     whileHover={{ x: 5 }}
                   >
                     <span className="mr-1">Learn more</span>
+
                     <svg
                       className="w-4 h-4 transition-transform group-hover/button:translate-x-1"
                       fill="none"
@@ -323,6 +380,15 @@ const HowItWorks = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Floating CTA */}
+
+        <motion.div
+          className="mt-20 text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+        ></motion.div>
       </div>
     </section>
   );
