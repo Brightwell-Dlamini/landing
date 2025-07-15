@@ -14,7 +14,12 @@ import { ThemeProvider } from 'next-themes';
 
 export default function Home() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Head>
           <title>
@@ -44,6 +49,7 @@ export default function Home() {
           <HowItWorks />
           <Categories />
           <FeaturedEvents />
+
           <UpcomingHighlights />
           <WhyChooseUs />
           <Testimonials />

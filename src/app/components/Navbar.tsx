@@ -1,4 +1,5 @@
 'use client';
+const isBrowser = typeof window !== 'undefined';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   motion,
@@ -28,6 +29,7 @@ import { debounce } from 'lodash';
 
 const PremiumNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
@@ -98,10 +100,12 @@ const PremiumNavbar = () => {
       }, 500),
     [router]
   );
+
   useEffect(() => {
     if (searchQuery) handleSearch(searchQuery);
     return () => handleSearch.cancel();
   }, [searchQuery, handleSearch]);
+
   // Focus search when opened
   useEffect(() => {
     if (showSearch && searchRef.current) {
@@ -109,295 +113,304 @@ const PremiumNavbar = () => {
     }
   }, [showSearch]);
 
+  // Ensure mounted state is set after first render
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Dynamic theme detection
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
   return (
     <>
       {/* Premium Navbar */}
-      <motion.nav
-        ref={navRef}
-        style={{
-          backgroundColor:
-            currentTheme === 'dark' ? darkBackgroundColor : backgroundColor,
-          backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-        }}
-        className={`fixed w-full top-0 z-50 transition-all duration-300 border-b ${
-          isScrolled
-            ? 'border-gray-200 dark:border-gray-700 shadow-sm'
-            : 'border-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
-            {/* Logo with 3D hover effect */}
-            <motion.div
-              whileHover={{
-                scale: 1.05,
-                rotateZ: [-1, 1, -1],
-                transition: { duration: 0.5 },
-              }}
-              className="flex-shrink-0 flex items-center"
-            >
-              <Link href="/" className="flex items-center group">
-                <motion.div
-                  whileHover={{ rotateY: 180 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <TicketIcon className="h-8 w-8 text-purple-600 dark:text-purple-400 mr-2" />
-                </motion.div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 bg-clip-text text-transparent group-hover:bg-gradient-to-l transition-all duration-500">
-                  Eswatini Events
-                </h1>
-              </Link>
-            </motion.div>
-
-            {/* Desktop Navigation - Enhanced with dropdowns */}
-            <div className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link) => (
-                <div
-                  key={link.name}
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown(link.name)}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <Link
-                    href={link.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-all ${
-                      pathname === link.href
-                        ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30'
-                        : 'text-gray-700 dark:text-gray-100  hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                    }`}
+      {isBrowser && (
+        <motion.nav
+          ref={navRef}
+          style={{
+            backgroundColor:
+              currentTheme === 'dark' ? darkBackgroundColor : backgroundColor,
+            backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+          }}
+          className={`fixed w-full top-0 z-50 transition-all duration-300 border-b ${
+            isScrolled
+              ? 'border-gray-200 dark:border-gray-700 shadow-sm'
+              : 'border-transparent'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-20 items-center">
+              {/* Logo with 3D hover effect */}
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
+                  rotateZ: [-1, 1, -1],
+                  transition: { duration: 0.5 },
+                }}
+                className="flex-shrink-0 flex items-center"
+              >
+                <Link href="/" className="flex items-center group">
+                  <motion.div
+                    whileHover={{ rotateY: 180 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    {link.name}
-                    {link.dropdown && (
-                      <ChevronDownIcon
-                        className={`ml-1 h-4 w-4 transition-transform ${
-                          activeDropdown === link.name ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
-                  </Link>
+                    <TicketIcon className="h-8 w-8 text-purple-600 dark:text-purple-400 mr-2" />
+                  </motion.div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 bg-clip-text text-transparent group-hover:bg-gradient-to-l transition-all duration-500">
+                    Eswatini Events
+                  </h1>
+                </Link>
+              </motion.div>
 
-                  {/* Animated dropdown */}
-                  {link.dropdown && (
-                    <AnimatePresence>
-                      {activeDropdown === link.name && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-56 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden"
-                        >
-                          {link.dropdown.map((item) => (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors"
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
-                        </motion.div>
+              {/* Desktop Navigation - Enhanced with dropdowns */}
+              <div className="hidden lg:flex items-center space-x-1">
+                {navLinks.map((link) => (
+                  <div
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => setActiveDropdown(link.name)}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-all ${
+                        pathname === link.href
+                          ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30'
+                          : 'text-gray-700 dark:text-gray-100  hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      }`}
+                    >
+                      {link.name}
+                      {link.dropdown && (
+                        <ChevronDownIcon
+                          className={`ml-1 h-4 w-4 transition-transform ${
+                            activeDropdown === link.name ? 'rotate-180' : ''
+                          }`}
+                        />
                       )}
-                    </AnimatePresence>
-                  )}
-                </div>
-              ))}
-            </div>
+                    </Link>
 
-            {/* Right side actions - Enhanced with micro-interactions */}
-            <div className="flex items-center space-x-3">
-              {/* Dynamic search bar */}
-              {showSearch ? (
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: 200 }}
-                  exit={{ width: 0 }}
-                  className="hidden md:block"
-                >
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-                    </div>
-                    <input
-                      ref={searchRef}
-                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white"
-                      placeholder="Search events..."
-                      type="search"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onBlur={() => setShowSearch(false)}
-                    />
+                    {/* Animated dropdown */}
+                    {link.dropdown && (
+                      <AnimatePresence>
+                        {activeDropdown === link.name && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute left-0 mt-2 w-56 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden"
+                          >
+                            {link.dropdown.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
                   </div>
-                </motion.div>
-              ) : (
-                <button
-                  onClick={() => setShowSearch(true)}
-                  className="hidden md:block p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  aria-label="Search"
-                >
-                  <MagnifyingGlassIcon className="h-5 w-5" />
-                </button>
-              )}
-
-              {/* Language/Currency switcher */}
-              <div className="relative hidden md:block">
-                <button
-                  onClick={() =>
-                    setActiveDropdown(
-                      activeDropdown === 'locale' ? null : 'locale'
-                    )
-                  }
-                  className="flex items-center space-x-1 p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <GlobeAltIcon className="h-5 w-5" />
-                  <span className="text-sm">EN</span>
-                </button>
-
-                <AnimatePresence>
-                  {activeDropdown === 'locale' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-40 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden z-50"
-                    >
-                      <div className="py-1">
-                        <button className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 w-full text-left">
-                          <span className="mr-2">🇺🇸</span> English
-                        </button>
-                        <button className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 w-full text-left">
-                          <span className="mr-2">🇸🇿</span> SiSwati
-                        </button>
-                      </div>
-                      <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                          <CurrencyDollarIcon className="h-4 w-4 mr-1" />
-                          SZL
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                ))}
               </div>
 
-              {/* Theme toggle with smooth transition */}
-              <button
-                onClick={() =>
-                  setTheme(currentTheme === 'dark' ? 'light' : 'dark')
-                }
-                className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {currentTheme === 'dark' ? (
-                  <SunIcon className="h-5 w-5" />
-                ) : (
-                  <MoonIcon className="h-5 w-5" />
-                )}
-              </button>
-
-              {/* Notification bell with counter */}
-              <button className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative">
-                <BellIcon className="h-5 w-5" />
-                {user.notifications > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
-                    {user.notifications}
-                  </span>
-                )}
-              </button>
-
-              {/* Shopping cart with fly-in animation */}
-              <Link
-                href="/cart"
-                className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
-              >
-                <ShoppingCartIcon className="h-5 w-5" />
-                {user.cartItems > 0 && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              {/* Right side actions - Enhanced with micro-interactions */}
+              <div className="flex items-center space-x-3">
+                {/* Dynamic search bar */}
+                {showSearch ? (
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: 200 }}
+                    exit={{ width: 0 }}
+                    className="hidden md:block"
                   >
-                    {user.cartItems}
-                  </motion.span>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                      </div>
+                      <input
+                        ref={searchRef}
+                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-full bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white"
+                        placeholder="Search events..."
+                        type="search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onBlur={() => setShowSearch(false)}
+                      />
+                    </div>
+                  </motion.div>
+                ) : (
+                  <button
+                    onClick={() => setShowSearch(true)}
+                    className="hidden md:block p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Search"
+                  >
+                    <MagnifyingGlassIcon className="h-5 w-5" />
+                  </button>
                 )}
-              </Link>
+                {/* Language/Currency switcher */}
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() =>
+                      setActiveDropdown(
+                        activeDropdown === 'locale' ? null : 'locale'
+                      )
+                    }
+                    className="flex items-center space-x-1 p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <GlobeAltIcon className="h-5 w-5" />
+                    <span className="text-sm">EN</span>
+                  </button>
 
-              {/* User avatar dropdown */}
-              <div className="relative">
+                  <AnimatePresence>
+                    {activeDropdown === 'locale' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-40 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden z-50"
+                      >
+                        <div className="py-1">
+                          <button className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 w-full text-left">
+                            <span className="mr-2">🇺🇸</span> English
+                          </button>
+                          <button className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30 w-full text-left">
+                            <span className="mr-2">🇸🇿</span> SiSwati
+                          </button>
+                        </div>
+                        <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
+                          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <CurrencyDollarIcon className="h-4 w-4 mr-1" />
+                            SZL
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Theme toggle with smooth transition */}
                 <button
                   onClick={() =>
-                    setActiveDropdown(activeDropdown === 'user' ? null : 'user')
+                    setTheme(currentTheme === 'dark' ? 'light' : 'dark')
                   }
-                  className="flex items-center space-x-1 focus:outline-none"
+                  className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  aria-label="Toggle theme"
                 >
-                  <div className="relative h-8 w-8 rounded-full overflow-hidden border-2 border-purple-500 dark:border-purple-400">
-                    <Image
-                      src={user.avatar}
-                      alt="User profile"
-                      width={32}
-                      height={32}
-                      className="object-cover"
-                    />
-                  </div>
+                  {mounted ? (
+                    currentTheme === 'dark' ? (
+                      <SunIcon className="h-5 w-5" />
+                    ) : (
+                      <MoonIcon className="h-5 w-5" />
+                    )
+                  ) : (
+                    <div className="h-5 w-5" /> // placeholder while loading
+                  )}
                 </button>
 
-                <AnimatePresence>
-                  {activeDropdown === 'user' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden z-50"
-                    >
-                      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">
-                          {user.name}
-                        </p>
-                      </div>
-                      <div className="py-1">
-                        <Link
-                          href="/profile"
-                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-                        >
-                          Your Profile
-                        </Link>
-                        <Link
-                          href="/settings"
-                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-                        >
-                          Settings
-                        </Link>
-                        <Link
-                          href="/logout"
-                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-                        >
-                          Sign out
-                        </Link>
-                      </div>
-                    </motion.div>
+                {/* Notification bell with counter */}
+                <button className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative">
+                  <BellIcon className="h-5 w-5" />
+                  {user.notifications > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                      {user.notifications}
+                    </span>
                   )}
-                </AnimatePresence>
-              </div>
+                </button>
+                {/* Shopping cart with fly-in animation */}
+                <Link
+                  href="/cart"
+                  className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
+                >
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  {user.cartItems > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                    >
+                      {user.cartItems}
+                    </motion.span>
+                  )}
+                </Link>
+                {/* User avatar dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() =>
+                      setActiveDropdown(
+                        activeDropdown === 'user' ? null : 'user'
+                      )
+                    }
+                    className="flex items-center space-x-1 focus:outline-none"
+                  >
+                    <div className="relative h-8 w-8 rounded-full overflow-hidden border-2 border-purple-500 dark:border-purple-400">
+                      <Image
+                        src={user.avatar}
+                        alt="User profile"
+                        width={32}
+                        height={32}
+                        className="object-cover"
+                      />
+                    </div>
+                  </button>
 
-              {/* Mobile menu button with animated hamburger */}
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? (
-                  <XMarkIcon className="h-6 w-6" />
-                ) : (
-                  <Bars3Icon className="h-6 w-6" />
-                )}
-              </button>
+                  <AnimatePresence>
+                    {activeDropdown === 'user' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none overflow-hidden z-50"
+                      >
+                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            {user.name}
+                          </p>
+                        </div>
+                        <div className="py-1">
+                          <Link
+                            href="/profile"
+                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
+                          >
+                            Your Profile
+                          </Link>
+                          <Link
+                            href="/settings"
+                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
+                          >
+                            Settings
+                          </Link>
+                          <Link
+                            href="/logout"
+                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30"
+                          >
+                            Sign out
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                {/* Mobile menu button with animated hamburger */}
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  aria-label="Toggle menu"
+                >
+                  {isMenuOpen ? (
+                    <XMarkIcon className="h-6 w-6" />
+                  ) : (
+                    <Bars3Icon className="h-6 w-6" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.nav>
+        </motion.nav>
+      )}
 
       {/* Premium Mobile Menu */}
       <AnimatePresence>
