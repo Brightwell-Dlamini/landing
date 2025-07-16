@@ -15,7 +15,7 @@
     "@react-spring/parallax": "^10.0.1",
     "@react-three/fiber": "^8.2.2",
     "@types/lodash": "^4.17.20",
-    "framer-motion": "^12.23.3",
+    "framer-motion": "^12.23.5",
     "framer-motion-3d": "^11.2.0",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
