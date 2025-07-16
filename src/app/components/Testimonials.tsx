@@ -1,466 +1,389 @@
 'use client';
-
-import {
-  motion,
-  AnimatePresence,
-  useAnimation,
-  useInView,
-} from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
-import { StarIcon, QuoteIcon, Sparkles } from 'lucide-react';
+import { motion, useAnimation } from 'framer-motion';
+import { FaQuoteLeft, FaStar } from 'react-icons/fa';
+import { Sparkles, Gem, Zap, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const testimonials = [
   {
     id: 1,
-    name: 'Nomsa Dlamini',
-    role: 'Festival Organizer',
-    content:
-      "Eswatini Events transformed our cultural festival! Ticket sales tripled and the platform's mobile money integration made payments seamless for our local attendees.",
+    quote:
+      'Reduced no-shows by 50% with dynamic pricing. Our attendees love the mobile tickets!',
+    name: 'Sidvokodvo Riders',
+    role: 'Motorsport Event Organizer',
     rating: 5,
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    image: 'https://randomuser.me/api/portraits/men/32.jpg',
+    highlight: 'Dynamic Pricing',
+    stats: '↑ 50% attendance',
+    color: 'from-amber-500 to-pink-500',
+    bgColor: 'bg-gradient-to-br from-amber-500/5 to-pink-500/5',
   },
   {
     id: 2,
-    name: 'Sipho Mamba',
-    role: 'Concert Promoter',
-    content:
-      'The analytics dashboard gave us incredible insights into our audience. We optimized our marketing and saw a 40% increase in ticket sales for our jazz festival!',
+    quote:
+      'The NFC wristbands revolutionized our vendor payments. No more cash handling!',
+    name: 'MTN Bushfire Team',
+    role: 'Music Festival',
     rating: 5,
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    image: 'https://randomuser.me/api/portraits/women/44.jpg',
+    highlight: 'Cashless Payments',
+    stats: '↓ 80% cash fraud',
+    color: 'from-purple-500 to-cyan-500',
+    bgColor: 'bg-gradient-to-br from-purple-500/5 to-cyan-500/5',
   },
   {
     id: 3,
-    name: 'Thandiwe Nkosi',
-    role: 'Event Attendee',
-    content:
-      "I've been to 8 events booked through this platform - every experience has been flawless. The QR code entry is so fast, I never wait in line anymore!",
+    quote:
+      'Finally a platform that understands African payment methods. MTN MoMo integration is a game-changer.',
+    name: 'Luju Festival',
+    role: 'Cultural Event',
     rating: 5,
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-  },
-  {
-    id: 4,
-    name: 'Bongani Shongwe',
-    role: 'Sports Coordinator',
-    content:
-      'Managing our soccer tournament tickets was effortless. The team even helped us set up special student pricing that increased youth attendance by 65%.',
-    rating: 4,
-    avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
-  },
-  {
-    id: 5,
-    name: 'Lindiwe Zwane',
-    role: 'Arts Director',
-    content:
-      "Our theater group went from paper tickets to this platform. The difference is night and day - we're reaching new audiences and growing every season.",
-    rating: 5,
-    avatar: 'https://randomuser.me/api/portraits/women/82.jpg',
+    image: 'https://randomuser.me/api/portraits/men/75.jpg',
+    highlight: 'Local Payments',
+    stats: '↑ 3x faster payouts',
+    color: 'from-emerald-500 to-blue-500',
+    bgColor: 'bg-gradient-to-br from-emerald-500/5 to-blue-500/5',
   },
 ];
 
-const TestimonialsCosmic = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function Testimonials() {
   const controls = useAnimation();
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
-  // Auto-rotate testimonials
   useEffect(() => {
-    if (isInView) {
-      controls.start('visible');
-      const interval = setInterval(() => {
-        setActiveIndex((prev) => (prev + 1) % testimonials.length);
-      }, 8000);
-      return () => clearInterval(interval);
-    }
-  }, [isInView, controls]);
-
-  // Constellation animation
-  const drawConstellation = {
-    hidden: { opacity: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 1.5,
-        ease: 'easeInOut',
-      },
-    }),
-  };
-
-  // Testimonial card animation
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50, rotateY: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateY: 0,
-      transition: {
-        type: 'spring',
-        damping: 15,
-        stiffness: 100,
-      },
-    },
-    exit: { opacity: 0, x: -100 },
-  };
-
-  // Star rating animation
-  const starVariants = {
-    hidden: { scale: 0.5, opacity: 0 },
-    visible: (i: number) => ({
-      scale: 1,
-      opacity: 1,
-      transition: {
-        delay: i * 0.1,
-        type: 'spring',
-        stiffness: 300,
-      },
-    }),
-    pulse: {
-      scale: [1, 1.2, 1],
-      transition: {
-        duration: 0.8,
-        repeat: Infinity,
-        repeatType: 'reverse',
-      },
-    },
-  };
+    if (inView) controls.start('visible');
+  }, [controls, inView]);
 
   return (
     <section
       ref={ref}
-      className="relative py-28 bg-gradient-to-b from-gray-900 via-purple-900 to-gray-950 overflow-hidden isolate"
-      aria-labelledby="testimonials-heading"
+      className="relative py-32 overflow-hidden isolate bg-white dark:bg-gray-950"
     >
-      {/* Cosmic background elements */}
+      {/* Luxury background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Stars */}
-        {[...Array(100)].map((_, i) => (
+        {/* Floating diamond grid */}
+        <div className="absolute inset-0 opacity-5 dark:opacity-10">
+          <div className="grid grid-cols-12 gap-4 w-full h-full">
+            {[...Array(144)].map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{
+                  opacity: [0.3, 0.8, 0.3],
+                  transition: {
+                    duration: 4 + Math.random() * 4,
+                    repeat: Infinity,
+                    delay: Math.random() * 5,
+                  },
+                }}
+                className="w-full h-full border border-gray-300 dark:border-gray-700 rounded-sm"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Animated gradient mesh */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={controls}
+          variants={{
+            visible: {
+              opacity: 0.3,
+              transition: { duration: 2 },
+            },
+          }}
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-pink-500/10"
+        />
+
+        {/* Floating 3D spheres */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
-            key={`star-${i}`}
-            custom={i % 10}
-            initial="hidden"
+            key={i}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={controls}
-            variants={drawConstellation}
-            className="absolute rounded-full bg-white"
+            variants={{
+              visible: {
+                opacity: [0.1, 0.2, 0.1],
+                scale: [1, 1.2, 1],
+                x: [0, Math.random() * 100 - 50],
+                y: [0, Math.random() * 100 - 50],
+                transition: {
+                  duration: 15 + Math.random() * 10,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                  delay: Math.random() * 3,
+                },
+              },
+            }}
+            className={`absolute rounded-full ${
+              i % 3 === 0 ? 'bg-purple-500/10' : 'bg-pink-500/10'
+            } blur-xl`}
             style={{
-              width: `${Math.random() * 3 + 1}px`,
-              height: `${Math.random() * 3 + 1}px`,
+              width: `${Math.random() * 300 + 100}px`,
+              height: `${Math.random() * 300 + 100}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.8 + 0.2,
             }}
           />
         ))}
-
-        {/* Shooting stars */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={`shooting-${i}`}
-            initial={{
-              opacity: 0,
-              x: `${Math.random() * 100}vw`,
-              y: `${Math.random() * 100}vh`,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              x: `${Math.random() * 100}vw`,
-              y: `${Math.random() * 100 + 100}vh`,
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              repeatDelay: Math.random() * 15 + 10,
-              ease: 'linear',
-            }}
-            className="absolute h-px bg-gradient-to-r from-transparent via-white to-transparent"
-            style={{
-              width: `${Math.random() * 100 + 50}px`,
-              transform: `rotate(${Math.random() * 45 - 22.5}deg)`,
-            }}
-          />
-        ))}
-
-        {/* Nebula effects */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={controls}
-          variants={{
-            visible: { opacity: 0.3 },
-          }}
-          className="absolute -left-1/4 top-1/4 h-[800px] w-[800px] rounded-full bg-gradient-to-r from-purple-600 to-pink-600 mix-blend-soft-light blur-[100px]"
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={controls}
-          variants={{
-            visible: { opacity: 0.2, transition: { delay: 0.5 } },
-          }}
-          className="absolute -right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 mix-blend-soft-light blur-[80px]"
-        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section header */}
+        {/* Premium header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.8 },
-          }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, y: 40 }}
+          animate={controls}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-24"
         >
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{
-              opacity: 1,
-              transition: { delay: 0.2 },
-            }}
-            className="inline-flex items-center gap-2 mb-6"
+            className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 shadow-sm"
+            whileHover={{ y: -2 }}
           >
-            <motion.div
-              animate={{
-                rotate: [0, 15, -15, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 3,
-              }}
-            >
-              <Sparkles className="w-6 h-6 text-purple-400" />
-            </motion.div>
-            <span className="text-sm font-semibold tracking-wide uppercase text-purple-400">
-              Voices of Eswatini
+            <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <span className="text-xs font-semibold tracking-wider text-purple-600 dark:text-purple-300 uppercase">
+              Trusted by Visionary Organizers
             </span>
           </motion.div>
 
           <motion.h2
-            id="testimonials-heading"
-            initial={{ opacity: 0 }}
-            whileInView={{
-              opacity: 1,
-              transition: { delay: 0.4 },
-            }}
-            className="text-5xl font-bold text-white mb-6"
+            className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={controls}
+            transition={{ delay: 0.2 }}
           >
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Cosmic Praise
-            </span>{' '}
-            From Our Community
+            <span className="relative inline-block">
+              <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                Unparalleled Event Success
+              </span>
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{
+                  scaleX: 1,
+                  transition: {
+                    delay: 0.8,
+                    duration: 1.5,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+                className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500 -z-0 transform translate-y-2 origin-left"
+              />
+            </span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{
-              opacity: 1,
-              transition: { delay: 0.6 },
-            }}
-            className="text-xl text-purple-200 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={controls}
+            transition={{ delay: 0.4 }}
           >
-            Don't just take our word for it - hear from event creators and
-            attendees who've had stellar experiences with our platform.
+            Discover how Africa&apos;s most
+            <span className="font-medium text-purple-600 dark:text-purple-400">
+              forward-thinking event creators
+            </span>{' '}
+            are achieving extraordinary outcomes
           </motion.p>
         </motion.div>
 
-        {/* Testimonials carousel */}
-        <div className="relative h-[500px]">
-          {/* Floating avatars orbit */}
-          <div className="absolute inset-0 flex items-center justify-center">
+        {/* Luxury testimonial cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {testimonials.map((testimonial, i) => (
             <motion.div
-              animate={{
-                rotate: 360,
-                transition: {
-                  duration: 40,
-                  repeat: Infinity,
-                  ease: 'linear',
-                },
+              key={testimonial.id}
+              initial={{ opacity: 0, y: 80, rotateX: 15 }}
+              animate={controls}
+              transition={{
+                delay: 0.2 + i * 0.15,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+                duration: 1,
               }}
-              className="relative w-64 h-64 sm:w-80 sm:h-80"
+              whileHover={{
+                y: -15,
+                transition: { type: 'spring', stiffness: 300 },
+              }}
+              className="relative group perspective-1000"
             >
-              {testimonials.map((testimonial, i) => {
-                const angle = i * (360 / testimonials.length) * (Math.PI / 180);
-                const x = Math.cos(angle) * 120;
-                const y = Math.sin(angle) * 120;
+              {/* Card reflection effect */}
+              <div className="absolute -bottom-8 left-0 right-0 h-1/3 bg-gradient-to-t from-white/30 to-transparent dark:from-gray-950/30 rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                return (
-                  <motion.button
-                    key={`orbit-${testimonial.id}`}
-                    initial={{ opacity: 0 }}
+              {/* Main card */}
+              <div
+                className={`relative h-full p-0.5 rounded-3xl ${testimonial.bgColor} backdrop-blur-sm`}
+              >
+                <div className="relative bg-white/80 dark:bg-gray-900/80 p-8 rounded-[calc(1.5rem-1px)] h-full border border-gray-200/50 dark:border-gray-800/50 overflow-hidden">
+                  {/* Floating highlight badge */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: 1,
-                      x,
-                      y,
-                      transition: { delay: i * 0.2 + 0.8 },
+                      y: 0,
+                      transition: { delay: 0.4 + i * 0.1 },
                     }}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setActiveIndex(i)}
-                    className={`absolute left-1/2 top-1/2 w-16 h-16 -ml-8 -mt-8 rounded-full overflow-hidden border-2 ${
-                      i === activeIndex
-                        ? 'border-purple-400 shadow-lg shadow-purple-500/30'
-                        : 'border-white/20'
-                    } transition-all duration-300`}
-                    aria-label={`View testimonial from ${testimonial.name}`}
+                    className="absolute -top-3 -right-3 z-20"
+                  >
+                    <div className="relative">
+                      <motion.div
+                        animate={{
+                          rotate: [0, 360],
+                          transition: {
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          },
+                        }}
+                        className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-md opacity-30"
+                      />
+                      <div
+                        className={`relative bg-gradient-to-r ${testimonial.color} text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5`}
+                      >
+                        <Zap className="w-3.5 h-3.5" />
+                        {testimonial.highlight}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Quote decoration */}
+                  <FaQuoteLeft className="absolute top-8 left-8 text-purple-500/5 dark:text-purple-400/5 text-7xl" />
+
+                  {/* Profile image with floating effect */}
+                  <motion.div
+                    className="relative w-24 h-24 rounded-full overflow-hidden mb-8 mx-auto border-4 border-white dark:border-gray-900 shadow-lg z-10"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{
+                      scale: 1,
+                      opacity: 1,
+                      transition: { delay: 0.3 + i * 0.1 },
+                    }}
+                    whileHover={{
+                      y: [0, -5, 0],
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      },
+                    }}
                   >
                     <Image
-                      src={testimonial.avatar}
-                      alt=""
-                      width={64}
-                      height={64}
-                      className="object-cover w-full h-full"
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                  </motion.button>
-                );
-              })}
-            </motion.div>
-          </div>
+                    {/* Profile glow */}
+                    <div
+                      className={`absolute inset-0 rounded-full bg-gradient-to-br ${testimonial.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
+                    />
+                  </motion.div>
 
-          {/* Active testimonial card */}
-          <div className="relative h-full flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonials[activeIndex].id}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                className="relative bg-gray-800/70 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/10 p-8 max-w-2xl mx-auto w-full"
-              >
-                {/* Floating quote icon */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{
-                    opacity: 0.1,
-                    y: 0,
-                    transition: { delay: 0.3 },
-                  }}
-                  className="absolute -top-4 -right-4 text-purple-400/10"
-                >
-                  <QuoteIcon className="w-32 h-32" />
-                </motion.div>
+                  {/* Animated stars */}
+                  <div className="flex justify-center gap-1 mb-8">
+                    {[...Array(testimonial.rating)].map((_, j) => (
+                      <motion.div
+                        key={j}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: 1,
+                          transition: {
+                            delay: j * 0.1 + i * 0.2 + 0.4,
+                            type: 'spring',
+                            stiffness: 500,
+                          },
+                        }}
+                        whileHover={{ scale: 1.3 }}
+                      >
+                        <FaStar className="text-yellow-400 text-xl drop-shadow-sm" />
+                      </motion.div>
+                    ))}
+                  </div>
 
-                {/* Rating stars */}
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <motion.div
-                      key={`star-${i}`}
-                      custom={i}
-                      initial="hidden"
-                      animate="visible"
-                      variants={starVariants}
-                      whileHover="pulse"
-                      className={`${
-                        i < testimonials[activeIndex].rating
-                          ? 'text-yellow-400'
-                          : 'text-gray-600'
-                      }`}
+                  {/* Testimonial content */}
+                  <div className="relative z-10">
+                    <motion.p
+                      className="italic text-gray-700 dark:text-gray-300 mb-8 text-center text-lg leading-relaxed"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.5 + i * 0.1 },
+                      }}
                     >
-                      <StarIcon className="w-5 h-5 fill-current" />
+                      &quote;{testimonial.quote}&quote;
+                    </motion.p>
+                    {/* Stats chip */}
+                    <motion.div
+                      className={`bg-gradient-to-r ${testimonial.color} text-white text-xs font-bold px-3 py-1.5 rounded-full mb-6 mx-auto w-fit`}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        transition: { delay: 0.6 + i * 0.1 },
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {testimonial.stats}
                     </motion.div>
-                  ))}
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.7 + i * 0.1 },
+                      }}
+                      className="text-center"
+                    >
+                      <p className="font-bold text-gray-900 dark:text-white text-xl mb-1">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {testimonial.role}
+                      </p>
+                    </motion.div>
+                  </div>
                 </div>
-
-                {/* Testimonial content */}
-                <motion.blockquote
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: 1,
-                    transition: { delay: 0.5 },
-                  }}
-                  className="text-lg text-white mb-6 leading-relaxed"
-                >
-                  {testimonials[activeIndex].content}
-                </motion.blockquote>
-
-                {/* Author info */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                    transition: { delay: 0.7 },
-                  }}
-                  className="flex items-center"
-                >
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-purple-400">
-                      <Image
-                        src={testimonials[activeIndex].avatar}
-                        width={48}
-                        height={48}
-                        alt={testimonials[activeIndex].name}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-lg font-medium text-white">
-                      {testimonials[activeIndex].name}
-                    </p>
-                    <p className="text-purple-300">
-                      {testimonials[activeIndex].role}
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Navigation dots */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: 1,
-                    transition: { delay: 0.9 },
-                  }}
-                  className="flex justify-center mt-8 space-x-2"
-                >
-                  {testimonials.map((_, i) => (
-                    <button
-                      key={`dot-${i}`}
-                      onClick={() => setActiveIndex(i)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        i === activeIndex ? 'bg-purple-400 w-6' : 'bg-white/30'
-                      }`}
-                      aria-label={`Go to testimonial ${i + 1}`}
-                    />
-                  ))}
-                </motion.div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Floating CTA */}
+        {/* Your beloved CTA button (kept as requested) */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-            transition: { delay: 1.2 },
-          }}
-          className="mt-20 text-center"
+          className="mt-24 text-center"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
         >
           <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: '0 0 30px rgba(167, 139, 250, 0.5)',
-            }}
-            whileTap={{ scale: 0.95 }}
             className="relative overflow-hidden group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 flex items-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-xl font-bold text-lg shadow-2xl mx-auto focus:outline-none focus:ring-4 focus:ring-purple-500/50 transition-all duration-300">
-              <Sparkles className="h-5 w-5" />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 group-hover:text-white transition-all duration-300">
-                Join Our Stellar Community
+            <span className="relative z-10 flex items-center gap-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-8 py-5 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl mx-auto border border-gray-200 dark:border-gray-700 transition-all duration-300">
+              <Gem className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 group-hover:text-white dark:group-hover:text-white transition-all duration-300">
+                Join Our Elite Network
               </span>
+              <ChevronRight className="w-5 h-5 -mr-2 group-hover:translate-x-1 transition-transform duration-300" />
             </span>
           </motion.button>
+
+          <motion.p
+            className="text-gray-500 dark:text-gray-400 mt-6 text-sm flex items-center justify-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+          >
+            <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            Limited availability for new organizers
+          </motion.p>
         </motion.div>
       </div>
     </section>
   );
-};
-
-export default TestimonialsCosmic;
+}
