@@ -19,7 +19,6 @@ import {
 import Image from 'next/image';
 
 const events = [
-  // Free entry events
   {
     id: 1,
     title: 'Incwala Ceremony',
@@ -27,9 +26,8 @@ const events = [
       'The most sacred national ritual, a kingship ceremony dating back centuries',
     date: 'December 2024',
     location: 'Lobamba',
-    image:
-      'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-    price: 0, // Free entry
+    image: '/images/events/incwala-ceremony.jpg',
+    price: 0,
     category: 'Cultural',
     isFree: true,
     isTrending: true,
@@ -45,9 +43,8 @@ const events = [
       'Annual ceremony where young women cut reeds and present them to the Queen Mother',
     date: 'August 2024',
     location: 'Ludzidzini Royal Village',
-    image:
-      'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-    price: 0, // Free entry
+    image: '/images/events/reed-dance.jpg',
+    price: 0,
     category: 'Cultural',
     isFree: true,
     isTrending: true,
@@ -63,9 +60,8 @@ const events = [
       'Celebration of the marula fruit harvest with traditional music and dance',
     date: 'February 2025',
     location: 'Hlane Royal National Park',
-    image:
-      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-    price: 0, // Free entry
+    image: '/images/events/marula-festival.jpg',
+    price: 0,
     category: 'Cultural',
     isFree: true,
     isPopular: true,
@@ -74,8 +70,6 @@ const events = [
     totalTickets: 0,
     ticketsSold: 0,
   },
-
-  // Ticketed events
   {
     id: 4,
     title: 'MTN Bushfire Festival',
@@ -83,8 +77,7 @@ const events = [
       "Africa's most internationally celebrated festival of music and arts",
     date: 'May 24-26, 2025',
     location: 'Malkerns Valley',
-    image:
-      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/bushfire-festival.jpg',
     price: 50,
     earlyBirdPrice: 35,
     earlyBirdCutoff: '2025-03-01',
@@ -102,8 +95,7 @@ const events = [
       "Hike up Africa's largest granite dome with live music at the summit",
     date: 'September 7, 2025',
     location: 'Sibebe Rock',
-    image:
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/sibebe-challenge.jpg',
     price: 25,
     earlyBirdPrice: 15,
     earlyBirdCutoff: '2025-06-01',
@@ -121,8 +113,7 @@ const events = [
       'Largest trade exhibition showcasing local and international businesses',
     date: 'August 30 - September 9, 2025',
     location: 'Mavuso Trade Centre',
-    image:
-      'https://images.unsplash.com/photo-1472653816316-3ad6f10a6592?ixlib=rb-4.0.3&auto=format&fit=crop&w=2094&q=80',
+    image: '/images/events/trade-fair.jpg',
     price: 10,
     category: 'Business',
     isPopular: true,
@@ -138,8 +129,7 @@ const events = [
       "Annual motorsport event featuring rally racing through Eswatini's landscapes",
     date: 'July 12-13, 2025',
     location: 'Various Locations',
-    image:
-      'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/swazi-rally.jpg',
     price: 15,
     earlyBirdPrice: 10,
     earlyBirdCutoff: '2025-05-01',
@@ -157,8 +147,7 @@ const events = [
       'Celebration of jazz music featuring local and international artists',
     date: 'October 18-20, 2025',
     location: 'Mbabane Theatre Club',
-    image:
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/jazz-festival.jpg',
     price: 30,
     earlyBirdPrice: 20,
     earlyBirdCutoff: '2025-08-01',
@@ -176,8 +165,7 @@ const events = [
       'Nighttime wildlife viewing and cultural performances in Hlane National Park',
     date: 'June 14, 2025',
     location: 'Hlane Royal National Park',
-    image:
-      'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2026&q=80',
+    image: '/images/events/moonlight-festival.jpg',
     price: 35,
     earlyBirdPrice: 25,
     earlyBirdCutoff: '2025-04-15',
@@ -195,8 +183,7 @@ const events = [
       'Daily showcase of Swazi culture, dance, and traditional lifestyle',
     date: 'Daily',
     location: 'Mantenga Falls',
-    image:
-      'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/cultural-village.jpg',
     price: 15,
     category: 'Cultural',
     isPopular: true,
@@ -212,8 +199,7 @@ const events = [
       "Showcasing the best of Eswatini's fashion designers and models",
     date: 'November 7-9, 2025',
     location: 'Ezulwini Valley',
-    image:
-      'https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/fashion-week.jpg',
     price: 40,
     earlyBirdPrice: 30,
     earlyBirdCutoff: '2025-09-01',
@@ -230,8 +216,7 @@ const events = [
     description: 'Annual celebration of African cinema and storytelling',
     date: 'September 25-29, 2025',
     location: 'Manzini',
-    image:
-      'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/images/events/film-festival.jpg',
     price: 20,
     earlyBirdPrice: 15,
     earlyBirdCutoff: '2025-07-01',
@@ -242,6 +227,13 @@ const events = [
     totalTickets: 500,
     ticketsSold: 466,
   },
+];
+
+const bubbles = [
+  { id: 1, size: 120, left: '10%', top: '20%', delay: 0.5 },
+  { id: 2, size: 80, left: '30%', top: '40%', delay: 1 },
+  { id: 3, size: 150, left: '70%', top: '30%', delay: 1.5 },
+  { id: 4, size: 100, left: '85%', top: '60%', delay: 2 },
 ];
 
 const FeaturedEvents = () => {
@@ -259,20 +251,17 @@ const FeaturedEvents = () => {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.2]);
 
-  // Calculate current events to display
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
   const totalPages = Math.ceil(events.length / eventsPerPage);
 
-  // Check if early bird is still available
   const isEarlyBirdAvailable = (event: (typeof events)[0]) => {
     return (
       event.earlyBirdCutoff && new Date() < new Date(event.earlyBirdCutoff)
     );
   };
 
-  // Calculate ticket percentage sold
   const getTicketPercentage = (event: (typeof events)[0]) => {
     return event.totalTickets > 0
       ? (event.ticketsSold / event.totalTickets) * 100
@@ -285,8 +274,6 @@ const FeaturedEvents = () => {
         ? prev.filter((eventId) => eventId !== id)
         : [...prev, id]
     );
-
-    // Heart pulse animation
     controls.start({
       scale: [1, 1.2, 1],
       transition: { duration: 0.3 },
@@ -308,39 +295,36 @@ const FeaturedEvents = () => {
       ref={ref}
       className="relative py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 overflow-hidden"
     >
-      {/* Animated background elements */}
       <motion.div
         style={{ y, opacity }}
         className="absolute inset-0 z-0 pointer-events-none"
       >
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1608501821300-4f99e58bba77?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] opacity-5 dark:opacity-10" />
-        {[...Array(10)].map((_, i) => (
+        <div className="absolute inset-0 bg-[url('/images/background-pattern.png')] opacity-5 dark:opacity-10" />
+        {bubbles.map((bubble) => (
           <motion.div
-            key={i}
+            key={bubble.id}
             animate={{
               y: [0, -100],
-              x: [0, Math.random() * 200 - 100],
               opacity: [0.5, 0],
               transition: {
-                duration: 15 + Math.random() * 10,
+                duration: 15,
                 repeat: Infinity,
                 repeatType: 'reverse',
-                delay: Math.random() * 5,
+                delay: bubble.delay,
               },
             }}
             className="absolute rounded-full bg-purple-500/10 dark:bg-pink-500/10"
             style={{
-              width: `${Math.random() * 200 + 50}px`,
-              height: `${Math.random() * 200 + 50}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              width: `${bubble.size}px`,
+              height: `${bubble.size}px`,
+              left: bubble.left,
+              top: bubble.top,
             }}
           />
         ))}
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -381,7 +365,6 @@ const FeaturedEvents = () => {
           </motion.p>
         </motion.div>
 
-        {/* Events grid - 4 cards per row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {currentEvents.map((event, index) => {
             const earlyBirdAvailable = isEarlyBirdAvailable(event);
@@ -406,20 +389,16 @@ const FeaturedEvents = () => {
                 }}
                 className="relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 group"
               >
-                {/* Image with overlay */}
                 <div className="relative h-48 overflow-hidden">
                   <Image
                     src={event.image}
                     alt={event.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    priority={index < 4} // Only prioritize first page images
+                    priority={index < 4}
                   />
-
-                  {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                  {/* Badges */}
                   <div className="absolute top-3 right-3 flex flex-col space-y-1">
                     {event.isTrending && (
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold">
@@ -446,12 +425,10 @@ const FeaturedEvents = () => {
                     )}
                   </div>
 
-                  {/* Category */}
                   <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-white/90 dark:bg-gray-900/90 text-purple-600 dark:text-purple-400 text-xs font-bold">
                     {event.category}
                   </span>
 
-                  {/* Like button */}
                   <motion.button
                     onClick={() => toggleLike(event.id)}
                     className="absolute bottom-3 right-3 p-1.5 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
@@ -466,7 +443,6 @@ const FeaturedEvents = () => {
                   </motion.button>
                 </div>
 
-                {/* Event content */}
                 <div className="p-4">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white line-clamp-2">
@@ -481,7 +457,6 @@ const FeaturedEvents = () => {
                     {event.description}
                   </p>
 
-                  {/* Event details */}
                   <div className="space-y-2 mb-3">
                     <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm">
                       <CalendarIcon className="h-4 w-4 mr-1 flex-shrink-0" />
@@ -508,7 +483,6 @@ const FeaturedEvents = () => {
                     </div>
                   </div>
 
-                  {/* Ticket sales progress (only for paid events) */}
                   {!event.isFree && event.totalTickets > 0 && (
                     <div className="mb-3">
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-1">
@@ -526,7 +500,6 @@ const FeaturedEvents = () => {
                     </div>
                   )}
 
-                  {/* Price and CTA */}
                   <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
                     <div>
                       {event.isFree ? (
@@ -574,7 +547,6 @@ const FeaturedEvents = () => {
           })}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <motion.div
             initial={{ opacity: 0 }}

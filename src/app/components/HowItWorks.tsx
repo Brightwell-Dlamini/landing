@@ -20,7 +20,7 @@ import { useTheme } from 'next-themes';
 const HowItWorks = () => {
   const controls = useAnimation();
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: '-100px' });
+  const isInView = useInView(containerRef, { once: true, margin: '-80px' });
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const { theme } = useTheme();
 
@@ -327,7 +327,7 @@ const HowItWorks = () => {
             whileTap={{ scale: 0.95 }}
             className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all"
           >
-            Start Exploring Events
+            Start Exploring Categories
           </motion.button>
         </motion.div>
       </div>

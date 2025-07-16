@@ -1,4 +1,5 @@
 'use client';
+
 import {
   motion,
   useScroll,
@@ -14,13 +15,13 @@ import {
   TicketIcon,
 } from '@heroicons/react/24/outline';
 import { FaFacebook, FaTwitter, FaWhatsapp, FaInstagram } from 'react-icons/fa';
-
 import Image from 'next/image';
 
 const Hero = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -43,16 +44,6 @@ const Hero = () => {
     'https://images.unsplash.com/photo-1472653816316-3ad6f10a6592?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2094&q=80',
   ];
 
-  // Auto-rotate background images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isHovering) {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
-      }
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [isHovering, images.length]);
-
   // Event type suggestions
   const eventTypes = [
     'Afrobeat',
@@ -65,11 +56,32 @@ const Hero = () => {
   const [currentEventType, setCurrentEventType] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    setIsMounted(true);
+
+    const imageInterval = setInterval(() => {
+      if (!isHovering) {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      }
+    }, 6000);
+
+    const eventTypeInterval = setInterval(() => {
       setCurrentEventType((prev) => (prev + 1) % eventTypes.length);
     }, 3000);
-    return () => clearInterval(interval);
-  }, [eventTypes.length]);
+
+    return () => {
+      clearInterval(imageInterval);
+      clearInterval(eventTypeInterval);
+    };
+  }, [isHovering, images.length, eventTypes.length]);
+
+  if (!isMounted) {
+    return (
+      <section
+        ref={ref}
+        className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gray-900"
+      />
+    );
+  }
 
   return (
     <section
@@ -99,6 +111,7 @@ const Hero = () => {
               fill
               className="object-cover"
               priority
+              sizes="100vw"
             />
           </motion.div>
         </AnimatePresence>
@@ -248,8 +261,7 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Enhanced social proof with more platforms */}
-        {/* Updated social proof section */}
+        {/* Enhanced social proof */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -302,7 +314,7 @@ const Hero = () => {
         </motion.div>
       </motion.div>
 
-      {/* Enhanced scroll indicator with sound wave animation */}
+      {/* Enhanced scroll indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import PremiumNavbar from './components/Navbar';
-// import Hero from './components/Hero';
-// import HowItWorks from './components/HowItWorks';
-// import Categories from './components/Categories';
-// import FeaturedEvents from './components/FeaturedEvents';
+import Hero from './components/Hero';
+import HowItWorks from './components/HowItWorks';
+import Categories from './components/Categories';
+import FeaturedEvents from './components/FeaturedEvents';
 // import UpcomingHighlights from './components/UpcomingHighlights';
 // import WhyChooseUs from './components/WhyChooseUs';
 // import OrganizerCTA from './components/OrganizerCTA';
@@ -36,10 +36,10 @@ export default function Home() {
       <PremiumNavbar />
 
       <main>
-        {/* <Hero /> */}
-        {/* <HowItWorks /> */}
-        {/* <Categories /> */}
-        {/* <FeaturedEvents /> */}
+        <Hero />
+        <HowItWorks />
+        <Categories />
+        <FeaturedEvents />
         {/* <UpcomingHighlights /> */}
         {/* <WhyChooseUs /> */}
         {/* <OrganizerCTA /> */}
