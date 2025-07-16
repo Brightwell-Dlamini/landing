@@ -327,7 +327,6 @@ export default function Testimonials() {
                     >
                       {testimonial.stats}
                     </motion.div>
-
                     <motion.div
                       initial={{ opacity: 0, y: 5 }}
                       animate={{

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-// import PremiumNavbar from './components/Navbar';
+import PremiumNavbar from './components/Navbar';
 // import Hero from './components/Hero';
 // import HowItWorks from './components/HowItWorks';
 // import Categories from './components/Categories';
@@ -33,7 +33,7 @@ export default function Home() {
         />
       </Head>
 
-      {/* <PremiumNavbar /> */}
+      <PremiumNavbar />
 
       <main>
         {/* <Hero /> */}
