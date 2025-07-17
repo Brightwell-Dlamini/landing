@@ -19,7 +19,7 @@ const experiences = [
   {
     icon: <FireIcon className="h-8 w-8" />,
     title: 'Cultural Festivals',
-    description: 'Immerse yourself in Eswatini&apos;s rich heritage',
+    description: "Immerse yourself in Eswatini's rich heritage",
     stats: '12 major festivals annually',
   },
   {
@@ -93,7 +93,7 @@ const ExperienceSection = () => {
         >
           <div className="relative h-96">
             <Image
-              src="@"
+              src="/images/events/umhlanga.jpg"
               alt="Eswatini cultural performance"
               fill
               className="object-cover"

@@ -20,7 +20,7 @@ import Image from 'next/image';
 
 const events = [
   {
-    id: 1,
+    id: 8,
     title: 'Incwala Ceremony',
     description:
       'The most sacred national ritual, a kingship ceremony dating back centuries',
@@ -54,7 +54,7 @@ const events = [
     ticketsSold: 0,
   },
   {
-    id: 3,
+    id: 7,
     title: 'Marula Festival',
     description:
       'Celebration of the marula fruit harvest with traditional music and dance',
@@ -123,7 +123,7 @@ const events = [
     ticketsSold: 4855,
   },
   {
-    id: 7,
+    id: 3,
     title: 'Swazi Rally',
     description:
       "Annual motorsport event featuring rally racing through Eswatini's landscapes",
@@ -141,7 +141,7 @@ const events = [
     ticketsSold: 913,
   },
   {
-    id: 8,
+    id: 1,
     title: 'Mbabane Jazz Festival',
     description:
       'Celebration of jazz music featuring local and international artists',

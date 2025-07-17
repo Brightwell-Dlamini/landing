@@ -1,306 +1,388 @@
 'use client';
-import { motion, useAnimation, Variants } from 'framer-motion';
+
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import {
   TicketIcon,
-  MegaphoneIcon,
-  SparklesIcon,
   ChartBarIcon,
+  CurrencyDollarIcon,
+  ShieldCheckIcon,
+  QrCodeIcon,
+  DevicePhoneMobileIcon,
+  SparklesIcon,
+  ArrowRightIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { ArrowLeftIcon, CalendarIcon, CheckIcon } from 'lucide-react';
+
+const benefits = [
+  {
+    icon: (
+      <CurrencyDollarIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Lower Fees',
+    description: "Only 5-8% fees vs competitors' 10-15%",
+    highlight: 'Save 30-50% on ticketing costs',
+  },
+  {
+    icon: (
+      <ChartBarIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Real-time Analytics',
+    description: 'Track sales, attendance, and revenue in real-time',
+    highlight: 'Make data-driven decisions',
+  },
+
+  {
+    icon: (
+      <ShieldCheckIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Fraud Prevention',
+    description: 'QR codes and NFC wristbands to eliminate cash theft',
+    highlight: 'Recover 20%+ of lost revenue',
+  },
+  {
+    icon: (
+      <QrCodeIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Instant Ticketing',
+    description: 'Attendees get QR codes via WhatsApp/SMS immediately',
+    highlight: 'No more manual ticket distribution',
+  },
+  {
+    icon: (
+      <DevicePhoneMobileIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Built for Eswatini  ',
+    description: 'Works perfectly on all devices, even with 2G',
+    highlight: 'Reach rural attendees effortlessly',
+  },
+  {
+    icon: (
+      <UserGroupIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'Complete Ecosystem',
+    description: 'From attendees to vendors to sponsors - we connect everyone',
+    highlight: '10+ stakeholder roles',
+  },
+  {
+    icon: (
+      <SparklesIcon className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+    ),
+    title: 'AI-Powered Innovation',
+    description: 'Auto-generated event recap films for marketing',
+    highlight: 'Boost engagement and future sales',
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      'Reduced no-shows by 50% with dynamic pricing. Our attendees love the mobile tickets!',
+    name: 'Sidvokodvo Riders',
+    role: 'Motorsport Event Organizer',
+    image: '/images/organizers/sidvokodvo.jpg',
+  },
+  {
+    quote:
+      'The NFC wristbands revolutionized our vendor payments. No more cash handling!',
+    name: 'MTN Bushfire Team',
+    role: 'Music Festival',
+    image: '/images/organizers/bushfire.jpg',
+  },
+];
 
 const OrganizerCTA = () => {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const controls = useAnimation();
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
+    if (inView) controls.start('visible');
   }, [controls, inView]);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { y: 40, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
-
-  const featureCards = [
-    {
-      icon: <SparklesIcon className="h-5 w-5 text-pink-300" />,
-      title: 'Create',
-      desc: 'Craft stunning event pages with our AI-powered designer',
-      gradient: 'from-pink-500 to-purple-600',
-    },
-    {
-      icon: <MegaphoneIcon className="h-5 w-5 text-cyan-300" />,
-      title: 'Promote',
-      desc: 'Amplify reach with smart audience targeting',
-      gradient: 'from-cyan-500 to-blue-600',
-    },
-    {
-      icon: <ChartBarIcon className="h-5 w-5 text-emerald-300" />,
-      title: 'Analyze',
-      desc: 'Real-time insights with beautiful dashboards',
-      gradient: 'from-emerald-500 to-teal-600',
-    },
-  ];
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   return (
     <section
       ref={ref}
-      aria-labelledby="organizer-cta-heading"
-      className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 py-24 sm:py-32 isolate"
+      className="relative pb-28 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 overflow-hidden"
+      id="for-organizers"
     >
-      {/* Floating particles background */}
+      {/* Floating elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{
-              opacity: 0,
-              x: Math.random() * 100 - 50,
-              y: Math.random() * 100 - 50,
-              scale: Math.random() * 0.5 + 0.5,
-            }}
-            animate={controls}
-            variants={{
-              visible: {
-                opacity: [0, 0.3, 0],
-                transition: {
-                  duration: Math.random() * 10 + 10,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                  ease: 'linear',
+        {[...Array(8)].map((_, i) => {
+          const baseSize = 100 + i * 30;
+          const position = i * 12.5;
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={controls}
+              variants={{
+                visible: {
+                  opacity: [0.1, 0.3, 0.1],
+                  scale: [1, 1.2, 1],
+                  x: [0, i % 2 === 0 ? 30 : -30],
+                  y: [0, i % 3 === 0 ? 20 : -20],
+                  transition: {
+                    duration: 15 + i * 2,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                    delay: i * 0.5,
+                  },
                 },
-              },
-            }}
-            className={`absolute rounded-full ${
-              i % 3 === 0
-                ? 'bg-pink-500'
-                : i % 2 === 0
-                ? 'bg-purple-500'
-                : 'bg-cyan-500'
-            }`}
-            style={{
-              width: `${Math.random() * 4 + 2}px`,
-              height: `${Math.random() * 4 + 2}px`,
-            }}
-          />
-        ))}
+              }}
+              className={`absolute rounded-full ${
+                i % 2 === 0 ? 'bg-purple-500/10' : 'bg-pink-500/10'
+              } blur-xl`}
+              style={{
+                width: `${baseSize}px`,
+                height: `${baseSize}px`,
+                top: `${position}%`,
+                left: `${position}%`,
+              }}
+            />
+          );
+        })}
       </div>
 
-      {/* Animated gradient blobs */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={controls}
-        variants={{
-          visible: {
-            scale: 1,
-            opacity: 0.3,
-            transition: {
-              type: 'spring',
-              stiffness: 30,
-              damping: 20,
-              duration: 2,
-            },
-          },
-        }}
-        className="absolute -right-1/4 -top-1/4 h-[800px] w-[800px] rounded-full bg-gradient-to-r from-pink-600 to-purple-600 mix-blend-soft-light blur-3xl"
-      />
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={controls}
-        variants={{
-          visible: {
-            scale: 1,
-            opacity: 0.3,
-            transition: {
-              type: 'spring',
-              stiffness: 30,
-              damping: 20,
-              duration: 2,
-              delay: 0.4,
-            },
-          },
-        }}
-        className="absolute -left-1/4 -bottom-1/4 h-[800px] w-[800px] rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 mix-blend-soft-light blur-3xl"
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
         <motion.div
-          initial="hidden"
-          animate={controls}
-          variants={containerVariants}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: '-100px' }}
           className="text-center mb-20"
         >
-          <motion.h2
-            variants={itemVariants}
-            id="organizer-cta-heading"
-            className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 leading-tight"
+          <motion.div
+            className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 text-sm font-medium"
+            whileHover={{ scale: 1.05 }}
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-cyan-400">
-              Revolutionize
+            <TicketIcon className="h-4 w-4 mr-2" />
+            FOR ORGANIZERS
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Everything You Need
             </span>{' '}
-            Your Event Experience
-          </motion.h2>
-          <motion.p
-            variants={itemVariants}
-            className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
-          >
-            The ultimate platform for visionary creators who demand excellence
-            in every detail
-          </motion.p>
+            to Sell Out Your Events
+          </h2>
+
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            From local gatherings to national festivals, we provide the tools to
+            maximize attendance, minimize hassle, and grow your revenue.
+          </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate={controls}
-          variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 relative"
-        >
-          {/* Hover highlight effect */}
-          {hoveredCard !== null && (
-            <motion.div
-              className={`absolute inset-0 bg-gradient-to-br ${featureCards[hoveredCard].gradient} opacity-20 rounded-3xl blur-xl pointer-events-none`}
-              layoutId="hoverBackground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.2 }}
-              exit={{ opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            />
-          )}
-
-          {featureCards.map((card, index) => (
+        {/* Benefits Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {benefits.map((benefit, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              viewport={{ once: true }}
               whileHover={{
-                y: -10,
-                scale: 1.03,
+                y: -5,
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
               }}
-              onHoverStart={() => setHoveredCard(index)}
-              onHoverEnd={() => setHoveredCard(null)}
-              className="relative overflow-hidden group"
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 transition-all"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/[0.01] backdrop-blur-lg border border-white/10 rounded-2xl group-hover:border-white/20 transition-all duration-500" />
-
-              {/* Animated border highlight */}
-              <div className="absolute inset-0 rounded-2xl p-px">
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-500`}
-                />
+              <div className="flex items-start mb-4">
+                <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-lg mr-4">
+                  {benefit.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {benefit.description}
+                  </p>
+                </div>
               </div>
-
-              <div className="relative p-8 h-full flex flex-col items-center text-center">
-                <motion.div
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                  className={`bg-gradient-to-br ${card.gradient} w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:shadow-xl transition-all duration-500`}
-                >
-                  {card.icon}
-                </motion.div>
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  {card.title}
-                </h3>
-                <p className="text-gray-300 mb-6">{card.desc}</p>
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  className="flex items-center text-sm font-medium text-cyan-300 mt-auto"
-                >
-                  Learn more
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </motion.div>
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 px-3 py-2 rounded-lg">
+                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
+                  {benefit.highlight}
+                </p>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-          className="text-center"
-        >
-          <motion.button
-            variants={itemVariants}
-            whileHover={{
-              scale: 1.05,
-              background: 'linear-gradient(45deg, #ec4899, #8b5cf6)',
-              boxShadow:
-                '0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.1)',
-            }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            className="relative overflow-hidden group"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 flex items-center gap-3 bg-white text-gray-900 px-10 py-5 rounded-xl font-bold text-lg shadow-2xl mx-auto focus:outline-none focus:ring-4 focus:ring-white/50 transition-all duration-300">
-              <TicketIcon className="h-6 w-6" />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-purple-600 group-hover:text-white transition-all duration-300">
-                Begin Your Journey
+        {/* Testimonials and CTA */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Testimonials */}
+          <div>
+            <motion.h3
+              className="text-2xl font-bold text-gray-900 dark:text-white mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              Trusted by Eswatini&apos;s{' '}
+              <span className="text-purple-600 dark:text-purple-400">
+                Top Event Creators
               </span>
-              <span className="absolute -right-5 group-hover:right-2 transition-all duration-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            </motion.h3>
+
+            <div className="relative">
+              {/* Testimonials Carousel */}
+              <div className="relative overflow-hidden h-[220px]">
+                {testimonials.map((testimonial, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{
+                      opacity: activeTestimonial === index ? 1 : 0,
+                      x: activeTestimonial === index ? 0 : 20,
+                      zIndex: activeTestimonial === index ? 1 : 0,
+                      pointerEvents:
+                        activeTestimonial === index ? 'auto' : 'none',
+                    }}
+                    transition={{ duration: 0.5 }}
+                    className={`absolute inset-0 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700`}
+                  >
+                    <div className="flex items-start h-full">
+                      <div className="relative h-16 w-16 rounded-full overflow-hidden mr-4 border-2 border-purple-500 dark:border-purple-400">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="italic text-gray-700 dark:text-gray-300 mb-3">
+                          &quote;{testimonial.quote}&quote;
+                        </p>
+                        <p className="font-bold text-gray-900 dark:text-white">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {testimonial.role}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="flex items-center justify-between mt-6">
+                <button
+                  onClick={() =>
+                    setActiveTestimonial((prev) =>
+                      prev === 0 ? testimonials.length - 1 : prev - 1
+                    )
+                  }
+                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors"
+                  aria-label="Previous testimonial"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </span>
-            </span>
-          </motion.button>
+                  <ArrowLeftIcon className="h-5 w-5" />
+                </button>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-gray-400 mt-6 text-sm flex items-center justify-center gap-2"
+                <div className="flex space-x-2">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveTestimonial(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        activeTestimonial === index
+                          ? 'bg-purple-600 w-6'
+                          : 'bg-gray-300 dark:bg-gray-600'
+                      }`}
+                      aria-label={`Go to testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() =>
+                    setActiveTestimonial((prev) =>
+                      prev === testimonials.length - 1 ? 0 : prev + 1
+                    )
+                  }
+                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <ArrowRightIcon className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* CTA Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+            viewport={{ once: true }}
+            className="relative bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl overflow-hidden shadow-2xl"
           >
-            <span className="inline-flex h-3 w-3 rounded-full bg-emerald-400/80 animate-pulse" />
-            Trusted by top event creators in the Kingndom.
-          </motion.p>
-        </motion.div>
+            <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10" />
+            <div className="relative z-10 p-8 text-white">
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                Ready to Transform Your Events?
+              </h3>
+              <p className="text-purple-100 mb-6">
+                Join Eswatini&apos;s premier ticketing platform and start
+                selling tickets in minutes.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center">
+                  <div className="bg-white/20 p-1 rounded-full mr-3">
+                    <CheckIcon className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-purple-50">No setup fees</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-white/20 p-1 rounded-full mr-3">
+                    <CheckIcon className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-purple-50">
+                    Free onboarding support
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-white/20 p-1 rounded-full mr-3">
+                    <CheckIcon className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-purple-50">First 10 tickets free</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-white text-purple-600 font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+                >
+                  Get Started Now
+                  <ArrowRightIcon className="h-5 w-5" />
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+                >
+                  Book a Demo
+                  <CalendarIcon className="h-5 w-5" />
+                </motion.button>
+              </div>
+
+              <p className="text-xs text-purple-200 mt-4 text-center">
+                Try us out. We will not dissapoint. We pinkie promise!
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

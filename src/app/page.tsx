@@ -4,10 +4,10 @@ import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
 import Categories from './components/Categories';
 import FeaturedEvents from './components/FeaturedEvents';
-// import UpcomingHighlights from './components/UpcomingHighlights';
-// import WhyChooseUs from './components/WhyChooseUs';
-// import OrganizerCTA from './components/OrganizerCTA';
+import UpcomingHighlights from './components/UpcomingHighlights';
+import OrganizerCTA from './components/OrganizerCTA';
 import Footer from './components/Footer';
+import ExperienceSection from './components/ExperienceSection';
 
 export default function Home() {
   return (
@@ -39,10 +39,10 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <Categories />
+        <UpcomingHighlights />
+        <ExperienceSection />
         <FeaturedEvents />
-        {/* <UpcomingHighlights /> */}
-        {/* <WhyChooseUs /> */}
-        {/* <OrganizerCTA /> */}
+        <OrganizerCTA />
       </main>
 
       <Footer />
