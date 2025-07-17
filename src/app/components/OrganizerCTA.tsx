@@ -83,14 +83,14 @@ const testimonials = [
       'Reduced no-shows by 50% with dynamic pricing. Our attendees love the mobile tickets!',
     name: 'Sidvokodvo Riders',
     role: 'Motorsport Event Organizer',
-    image: '/images/organizers/sidvokodvo.jpg',
+    image: '/images/sidvokodvo.jpg',
   },
   {
     quote:
       'The NFC wristbands revolutionized our vendor payments. No more cash handling!',
     name: 'MTN Bushfire Team',
     role: 'Music Festival',
-    image: '/images/organizers/bushfire.jpg',
+    image: '/images/bushfire.jpg',
   },
 ];
 

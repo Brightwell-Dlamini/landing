@@ -93,7 +93,7 @@ const ExperienceSection = () => {
         >
           <div className="relative h-96">
             <Image
-              src="/images/events/umhlanga.jpg"
+              src="/images/umhlanga.jpg"
               alt="Eswatini cultural performance"
               fill
               className="object-cover"
