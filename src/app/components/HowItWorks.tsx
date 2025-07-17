@@ -314,22 +314,6 @@ const HowItWorks = () => {
             </motion.div>
           ))}
         </motion.div>
-
-        {/* Floating CTA */}
-        <motion.div
-          className="mt-20 text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl hover:shadow-purple-500/20 transition-all"
-          >
-            Start Exploring Categories
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   );

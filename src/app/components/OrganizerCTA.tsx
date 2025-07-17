@@ -260,7 +260,7 @@ const OrganizerCTA = () => {
                       </div>
                       <div>
                         <p className="italic text-gray-700 dark:text-gray-300 mb-3">
-                          &quote;{testimonial.quote}&quote;
+                          &quot;{testimonial.quote}&quot;
                         </p>
                         <p className="font-bold text-gray-900 dark:text-white">
                           {testimonial.name}

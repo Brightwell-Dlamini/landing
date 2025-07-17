@@ -10,11 +10,12 @@ import { useRef, useState, useEffect } from 'react';
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
-  CalendarIcon,
   MusicalNoteIcon,
   TicketIcon,
+  DevicePhoneMobileIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
-import { FaFacebook, FaTwitter, FaWhatsapp, FaInstagram } from 'react-icons/fa';
+import { FaFacebook, FaWhatsapp, FaInstagram, FaTwitter } from 'react-icons/fa';
 import Image from 'next/image';
 
 const Hero = () => {
@@ -33,27 +34,32 @@ const Hero = () => {
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', '80%']);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
-  const blurAmount = useTransform(scrollYProgress, [0, 0.7], [0, 4]);
-  const filter = useTransform(blurAmount, (v) => `blur(${v}px)`);
 
-  // Image carousel for background
+  // Localized images showcasing Eswatini events
   const images = [
-    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1472653816316-3ad6f10a6592?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2094&q=80',
+    '/images/hero-1.jpg', // MTN Bushfire festival
+    '/images/hero-2.jpg', // Eswatini football match
+    '/images/hero-3.jpg', // Standard Bank Luju Festival
+    '/images/hero-4.jpg', // Sidvokodvo motorsport event
   ];
 
-  // Event type suggestions
+  // Local event types
   const eventTypes = [
-    'Afrobeat',
-    'Traditional',
-    'EDM',
-    'Jazz',
-    'Hip Hop',
-    'Gospel',
+    'Music Festivals',
+    'Football Matches',
+    'Cultural Events',
+    'Motorsport',
+    'Concerts',
+    'Community Gatherings',
   ];
   const [currentEventType, setCurrentEventType] = useState(0);
+
+  // Local payment methods
+  const paymentMethods = [
+    { icon: <DevicePhoneMobileIcon className="h-5 w-5" />, name: 'MTN MoMo' },
+    { icon: <CurrencyDollarIcon className="h-5 w-5" />, name: 'Cash' },
+    { icon: null, name: 'Visa/Mastercard' },
+  ];
 
   useEffect(() => {
     setIsMounted(true);
@@ -90,9 +96,9 @@ const Hero = () => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Dynamic background images with smooth transitions */}
+      {/* Dynamic background with local event images */}
       <motion.div
-        style={{ y: backgroundY, scale, filter }}
+        style={{ y: backgroundY, scale }}
         className="absolute inset-0 z-0"
       >
         <AnimatePresence mode="wait">
@@ -116,40 +122,14 @@ const Hero = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Subtle animated particles */}
-        <div className="absolute inset-0 overflow-hidden z-20">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                opacity: 0,
-              }}
-              animate={{
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                opacity: [0, 0.6, 0],
-                transition: {
-                  duration: 5 + Math.random() * 10,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                },
-              }}
-              className="absolute w-1 h-1 rounded-full bg-pink-500"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+        {/* Eswatini flag color overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-600/10 via-yellow-500/10 to-red-600/10 z-20" />
       </motion.div>
 
       {/* Content with enhanced scroll effects */}
       <motion.div
         style={{ y: textY, opacity }}
-        className="relative z-30 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto text-center pt-20"
+        className="relative z-30 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto text-center pt-15"
       >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -167,21 +147,21 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              <MusicalNoteIcon className="h-4 w-4 mr-2 text-pink-400" />
-              <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                {eventTypes[currentEventType]} Events
+              <MusicalNoteIcon className="h-4 w-4 mr-2 text-yellow-400" />
+              <span className="bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
+                {eventTypes[currentEventType]} in Eswatini
               </span>
             </motion.p>
           </motion.div>
 
-          <motion.h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-white">
+          <motion.h1 className="text-4xl sm:text-6xl md:text-76xl lg:text-7xl font-bold mb-6 text-white">
             <motion.span
-              className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent"
+              className="bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Eswatini
+              Eswatini&apos;s
             </motion.span>{' '}
             <motion.br
               initial={{ opacity: 0 }}
@@ -193,7 +173,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Comes Alive
+              Premier Ticketing
             </motion.span>
           </motion.h1>
 
@@ -201,14 +181,14 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-200"
+            className="text-lg md:text-xl mb-10 max-w-2xl mx-auto text-gray-200"
           >
-            Discover the pulse of Africa&apos;s hidden gem. Concerts, festivals,
-            and cultural experiences that will move your soul.
+            Secure tickets to local events with 5-8% fees - the lowest in
+            Eswatini. Pay with MoMo, cash, or card.
           </motion.p>
         </motion.div>
 
-        {/* Enhanced search card with floating effect */}
+        {/* Enhanced search card with local context */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -222,8 +202,8 @@ const Hero = () => {
                 <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700/80 dark:text-white transition-all duration-200"
-                placeholder={`Find ${eventTypes[currentEventType]} events...`}
+                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700/80 dark:text-white transition-all duration-200"
+                placeholder={`Find ${eventTypes[currentEventType]}...`}
                 type="search"
               />
             </div>
@@ -232,62 +212,71 @@ const Hero = () => {
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <MapPinIcon className="h-5 w-5 text-gray-400" />
               </div>
-              <input
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700/80 dark:text-white transition-all duration-200"
-                placeholder="Anywhere in Eswatini"
-                type="text"
-              />
-            </div>
-
-            <div className="flex-1 relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <CalendarIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700/80 dark:text-white transition-all duration-200"
-                placeholder="Whenever you ready!"
-                type="text"
-              />
+              <select className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700/80 dark:text-white appearance-none bg-transparent">
+                <option>All Regions</option>
+                <option>Hhohho</option>
+                <option>Manzini</option>
+                <option>Lubombo</option>
+                <option>Shiselweni</option>
+              </select>
             </div>
 
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-purple-500/30 flex items-center gap-2"
+              className="bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-yellow-500/30 flex items-center gap-2"
             >
               <TicketIcon className="h-5 w-5" />
               Find Events
             </motion.button>
           </div>
+
+          {/* Local payment methods */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="mt-4 flex justify-center gap-4"
+          >
+            {paymentMethods.map((method, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -2 }}
+                className="flex items-center bg-black/20 px-3 py-1 rounded-full"
+              >
+                {method.icon && (
+                  <span className="mr-2 text-yellow-400">{method.icon}</span>
+                )}
+                <span className="text-sm text-white">{method.name}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Enhanced social proof */}
+        {/* Local social media links */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="mt-12 flex flex-wrap justify-center gap-6"
+          transition={{ delay: 1.4 }}
+          className="mt-5 flex justify-center gap-16"
         >
+          <motion.a
+            whileHover={{ y: -3 }}
+            href="https://x.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-blue-600/30 transition-colors"
+          >
+            <FaTwitter className="text-white text-xl" />
+          </motion.a>
           <motion.a
             whileHover={{ y: -3 }}
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-blue-600/30 transition-colors"
+            className="p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-blue-600/30 transition-colors"
           >
-            <FaFacebook className="text-blue-500 text-2xl mr-2" />
-            <span className="text-gray-300">Follow on Facebook</span>
-          </motion.a>
-
-          <motion.a
-            whileHover={{ y: -3 }}
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-blue-400/30 transition-colors"
-          >
-            <FaTwitter className="text-blue-400 text-2xl mr-2" />
-            <span className="text-gray-300">Follow on X</span>
+            <FaFacebook className="text-white text-xl" />
           </motion.a>
 
           <motion.a
@@ -295,10 +284,9 @@ const Hero = () => {
             href="https://wa.me/your-number"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-green-500/30 transition-colors"
+            className="p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-green-500/30 transition-colors"
           >
-            <FaWhatsapp className="text-green-500 text-2xl mr-2" />
-            <span className="text-gray-300">Chat on WhatsApp</span>
+            <FaWhatsapp className="text-white text-xl" />
           </motion.a>
 
           <motion.a
@@ -306,15 +294,14 @@ const Hero = () => {
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-pink-600/30 transition-colors"
+            className="p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-pink-600/30 transition-colors"
           >
-            <FaInstagram className="text-pink-500 text-2xl mr-2" />
-            <span className="text-gray-300">Follow on Instagram</span>
+            <FaInstagram className="text-white text-xl" />
           </motion.a>
         </motion.div>
       </motion.div>
 
-      {/* Enhanced scroll indicator */}
+      {/* Enhanced scroll indicator with Eswatini colors */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -325,7 +312,7 @@ const Hero = () => {
           className="animate-bounce flex flex-col items-center"
           whileHover={{ scale: 1.1 }}
         >
-          <p className="text-gray-300 text-sm mb-2">Explore the rhythm</p>
+          <p className="text-gray-300 text-sm mb-2">Feel the rythm!</p>
           <div className="flex items-end h-8 gap-1">
             {[2, 4, 6, 8, 6, 4, 2].map((height, i) => (
               <motion.div
@@ -339,43 +326,18 @@ const Hero = () => {
                   repeat: Infinity,
                   delay: i * 0.1,
                 }}
-                className="w-1 bg-gradient-to-t from-purple-400 to-pink-500 rounded-full"
+                className={`w-1 rounded-full ${
+                  i % 3 === 0
+                    ? 'bg-blue-500'
+                    : i % 3 === 1
+                    ? 'bg-yellow-400'
+                    : 'bg-red-600'
+                }`}
               />
             ))}
           </div>
         </motion.div>
       </motion.div>
-
-      {/* Subtle floating music notes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
-        {['♪', '♫', '♬', '♩'].map((note, i) => (
-          <motion.div
-            key={i}
-            initial={{
-              x: Math.random() * 100,
-              y: Math.random() * 100,
-              rotate: Math.random() * 360,
-              opacity: 0,
-            }}
-            animate={{
-              y: [0, -50],
-              opacity: [0, 0.8, 0],
-              transition: {
-                duration: 10 + Math.random() * 10,
-                repeat: Infinity,
-                repeatDelay: Math.random() * 5,
-              },
-            }}
-            className="absolute text-white/30 text-xl"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${50 + Math.random() * 40}%`,
-            }}
-          >
-            {note}
-          </motion.div>
-        ))}
-      </div>
     </section>
   );
 };
