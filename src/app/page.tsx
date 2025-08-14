@@ -36,13 +36,13 @@ export default function Home() {
       <PremiumNavbar />
 
       <main>
-        <Hero />
+        {/* <Hero />
         <HowItWorks />
         <Categories />
         <UpcomingHighlights />
         <ExperienceSection />
         <FeaturedEvents />
-        <OrganizerCTA />
+        <OrganizerCTA /> */}
       </main>
 
       <Footer />
